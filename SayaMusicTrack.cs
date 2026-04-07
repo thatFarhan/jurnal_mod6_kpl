@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 public class SayaMusicTrack
 {
@@ -8,7 +9,9 @@ public class SayaMusicTrack
 
 	public SayaMusicTrack(string title)
 	{
-		this.id = new Random().Next(10000, 99999);
+		Contract.Requires(title.Length <= 200);
+		Contract.Requires(!string.IsNullOrEmpty(title));
+        this.id = new Random().Next(10000, 99999);
         this.title = title;
 		this.playCount = 0;
     }

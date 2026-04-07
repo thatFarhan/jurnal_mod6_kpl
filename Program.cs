@@ -10,9 +10,11 @@ class Program
         {
             string judulLengkap = $"Review Lagu {judul} oleh {namaUser}";
             SayaMusicTrack track = new SayaMusicTrack(judulLengkap);
+            track.increasePlayCount(5);
             user.AddTrack(track);
         }
 
         user.PrintAllTracks();
+        Console.WriteLine($"Total Play Count {user.username}: {user.GetTotalPlayCount()}");
     }
 }
