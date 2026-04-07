@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 public class SayaMusicTrack
@@ -9,8 +10,9 @@ public class SayaMusicTrack
 
 	public SayaMusicTrack(string title)
 	{
-		Contract.Requires(title.Length <= 200);
-		Contract.Requires(!string.IsNullOrEmpty(title));
+		Debug.Assert(title.Length <= 200, "Title must be 200 characters or less.");
+		Debug.Assert(title != null, "Title cannot be null.");
+
         this.id = new Random().Next(10000, 99999);
         this.title = title;
 		this.playCount = 0;
@@ -18,9 +20,11 @@ public class SayaMusicTrack
 
 	public void increasePlayCount(int count)
 	{
-		playCount += count;
+		Debug.Assert(count <= 25_000_000, "Count must be 25 million or less.");
+		Debug.Assert(count >= 0, "Count must be non-negative.");
+		Debug.Assert(playCount + count <= int.MaxValue, "Total play count must not exceed int.MaxValue.");
+        playCount += count;
     }
-
 	public void printTrackDetails()
 	{
 		Console.WriteLine($"Track ID: {id}, Title: {title}, Play Count: {playCount}");

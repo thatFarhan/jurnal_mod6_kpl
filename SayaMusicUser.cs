@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 public class SayaMusicUser
 {
@@ -8,6 +10,9 @@ public class SayaMusicUser
 
 	public SayaMusicUser(string username)
 	{
+		Debug.Assert(username.Length <= 100, "Username must be 100 characters or less.");
+		Debug.Assert(username != null, "Username cannot be null.");
+
         this.id = new Random().Next(10000, 99999);
         this.username = username;
 		this.uploadedTracks = new List<SayaMusicTrack>();
@@ -25,7 +30,9 @@ public class SayaMusicUser
 
 	public void AddTrack(SayaMusicTrack track)
 	{
-		uploadedTracks.Add(track);
+        Debug.Assert(track != null, "Track cannot be null.");
+		Debug.Assert(track.getPlayCount() <= int.MaxValue, "Play count must be a valid integer.");
+        uploadedTracks.Add(track);
     }
 
 	public void PrintAllTracks()
@@ -34,7 +41,8 @@ public class SayaMusicUser
         int i = 1;
 		foreach (SayaMusicTrack track in uploadedTracks)
 		{
-			Console.WriteLine($"Track {i} judul: {track.title}");
+			if (i > 8) break;
+            Console.WriteLine($"Track {i} judul: {track.title}");
 			i++;
         }
     }
